@@ -4,7 +4,6 @@ import RecorderUI from "./RecorderUI";
 export default function Page() {
   return (
     <>
-      <Navbar />
       <RecorderUI />
     </>
   );
