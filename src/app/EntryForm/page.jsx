@@ -5,7 +5,7 @@ import SelectTest from "../components/SelectTest";
 
 export default function Page() {
   const [vEntry, setVEntry] = useState(false);
-
+  // localStorage.clear();
   return (
     <>
       <EntryFrom setter={setVEntry} />

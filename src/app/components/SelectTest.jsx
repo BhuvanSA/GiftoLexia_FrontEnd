@@ -10,7 +10,7 @@ const SelectTest = () => {
         <button
           className="disabled:bg-gray-600 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center light:bg-blue-600 light:hover:bg-blue-700 light:focus:ring-blue-800"
           onClick={() => {
-            router.push("/STT");
+            router.push("/SpeakingTest");
           }}
           formTarget="_blank"
         >
@@ -18,13 +18,13 @@ const SelectTest = () => {
         </button>
         <button
           className="mx-5 disabled:bg-gray-600 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center light:bg-blue-600 light:hover:bg-blue-700 light:focus:ring-blue-800"
-          onClick={() => router.push("/TTS")}
+          onClick={() => router.push("/ListeningTest")}
         >
           Listening Test
         </button>
         <button
           className="disabled:bg-gray-600 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center light:bg-blue-600 light:hover:bg-blue-700 light:focus:ring-blue-800"
-          onClick={() => router.push("/MCQ")}
+          onClick={() => router.push("/QuestioningTest")}
         >
           Question Test
         </button>

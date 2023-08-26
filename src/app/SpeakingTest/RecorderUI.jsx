@@ -1,9 +1,10 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import Recorder from "./Recorder";
+import { useRouter } from "next/navigation";
 
 const RecorderUI = () => {
-  // Replace {{ expected }}, {{ actual }}, and {{ calculate }} with appropriate state variables
+  const router = useRouter();
   const [expected, setExpected] = useState("");
   const [actual, setActual] = useState("");
   const [calculate, setCalculate] = useState("");
