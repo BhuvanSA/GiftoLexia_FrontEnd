@@ -1,6 +1,8 @@
 import React from "react";
+import { useRouter } from "next/navigation";
 
 const ChooseTest = () => {
+  const router = useRouter();
   return (
     <div>
       <div className="mt-5 ml-7">
