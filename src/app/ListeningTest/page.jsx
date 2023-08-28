@@ -9,6 +9,10 @@ export default function Page() {
   // localStorage.removeItem("form_id");
   if (form_id === null) router.push("/EntryForm");
   else {
-    return <div className="text-center mt-5">Listening Test Goes Here</div>;
+    return (
+      <>
+        <div className="text-center mt-5">Listening Test Goes Here</div>
+      </>
+    );
   }
 }

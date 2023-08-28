@@ -5,14 +5,15 @@ const QuestionUI = (props) => {
   const [intros, setIntros] = useState();
   const [questions, setQuestions] = useState();
   const [strengths, setStrengths] = useState();
-  const language = localStorage.getItem("form_language");
-  const age = localStorage.getItem("form_age");
+  const [selectedOptions, setSelectedOptions] = useState({});
+  const [age, setAge] = useState();
 
   useEffect(() => {
-    get_data();
+    setAge(localStorage.getItem("form_age")).then(get_data());
   }, []);
 
   function get_data() {
+    const language = localStorage.getItem("form_language");
     axios.get(`http://127.0.0.1:5000/survey/${language}/${age}`).then((res) => {
       console.log(res);
       setIntros(res["data"]["intro"]);
@@ -21,32 +22,60 @@ const QuestionUI = (props) => {
     });
   }
 
+  function handleSubmit() {
+    axios
+      .post("http://127.0.0.1:5000/survey", { selectedOptions, age_group: age })
+      .then((response) => {
+        console.log(response.data); // Handle the response as needed
+      })
+      .catch((error) => {
+        console.error("Error submitting data:", error);
+      });
+  }
+
   return (
-    <div className="bg-gray-100 min-h-screen py-8">
-      <div className="max-w-3xl mx-auto bg-white rounded-lg shadow-md p-6">
-        <h1 className="text-2xl font-semibold mb-4">QuestionUI</h1>
+    <div className="bg-white min-h-screen ">
+      <div className="bg-white rounded-lg shadow-md mx-20 my-10 p-3">
         {/* Render each intro */}
-        <div>
+        <div className="p-3 bg-gray-100 rounded-lg">
           {intros &&
-            intros.map((intro, index) => <div key={index}>{intro}</div>)}
+            intros.map((intro, index) => (
+              <div className=" text-2xl font-bold py-2" key={index}>
+                {intro}
+              </div>
+            ))}
         </div>
 
+        <h1 className="text-4xl font-semibold my-10">
+          Answer the following questions
+        </h1>
         {/* Render each question */}
         <div>
           {questions &&
             questions.map((question, index) => (
-              <div key={index} className="mb-6">
-                <h2 className="text-lg font-semibold mb-2">{question.title}</h2>
-                <p className="mb-3">{question.question}</p>
+              <div
+                key={index}
+                className="mb-6 mx-10 border-2 border-slate-300 rounded-lg p-3"
+              >
+                {/* <h2 className="text-lg font-semibold mb-2">{index + 1}.</h2> */}
+                <p className="mb-3 text-xl text-left">
+                  {index + 1}.{question.question}
+                </p>
                 {/* Render question options here */}
-                <div className="space-y-2">
+                <div className="text-left">
                   {question.options.map((option) => (
-                    <div key={option.optid} className="flex items-center">
+                    <div key={option.optid} className="">
                       <input
                         type="radio"
                         name={`q${question.qid}`}
                         id={`q${question.qid}_${option.optid}`}
                         className="mr-2"
+                        onChange={() =>
+                          setSelectedOptions((prevSelected) => ({
+                            ...prevSelected,
+                            [question.qid]: option.optid,
+                          }))
+                        }
                       />
                       <label htmlFor={`q${question.qid}_${option.optid}`}>
                         {option.label}
@@ -56,17 +85,26 @@ const QuestionUI = (props) => {
                 </div>
               </div>
             ))}
+          <button
+            type="submit"
+            className="disabled:bg-gray-600 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center light:bg-blue-600 light:hover:bg-blue-700 light:focus:ring-blue-800"
+            onClick={handleSubmit}
+          >
+            Submit
+          </button>
         </div>
 
-        {/* Render each strength */}
-        <div>
+        <div className="bg-green-100 py-2 px-4 rounded-lg m-2">
+          <h1 className="text-4xl font-semibold my-10">
+            {" "}
+            Some Noticeble Strengths
+          </h1>
+          {/* Render each strength */}
           {strengths &&
             strengths.map((strength, index) => (
-              <div
-                key={index}
-                className="bg-green-100 py-2 px-4 rounded-lg mb-2"
-              >
+              <div className="text-lg text-left p-2 m-3" key={index}>
                 {strength}
+                <hr className="mt-3" />
               </div>
             ))}
         </div>

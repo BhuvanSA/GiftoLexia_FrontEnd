@@ -1,13 +1,17 @@
 "use client";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import ChooseTest from "../components/ChooseTest";
 import QuestionUI from "./QuestionUI";
 
 export default function Page() {
-  const form_id = localStorage.getItem("form_id");
   const router = useRouter();
+  const [form_id, setForm_id] = useState();
   // localStorage.removeItem("form_id");
+
+  useEffect(() => {
+    setForm_id(localStorage.getItem("form_id"));
+  }, []);
 
   if (form_id === null) router.push("/EntryForm");
   else {
