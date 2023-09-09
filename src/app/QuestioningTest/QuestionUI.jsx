@@ -9,18 +9,21 @@ const QuestionUI = (props) => {
   const [age, setAge] = useState();
 
   useEffect(() => {
-    setAge(localStorage.getItem("form_age")).then(get_data());
+    getdata().then(() => setAge(localStorage.getItem("form_age")));
   }, []);
 
-  function get_data() {
+  const getdata = async () => {
+    const age_temp = localStorage.getItem("form_age");
     const language = localStorage.getItem("form_language");
-    axios.get(`http://127.0.0.1:5000/survey/${language}/${age}`).then((res) => {
-      console.log(res);
-      setIntros(res["data"]["intro"]);
-      setQuestions(res["data"]["questions"]);
-      setStrengths(res["data"]["strengths"]);
-    });
-  }
+    axios
+      .get(`http://127.0.0.1:5000/survey/${language}/${age_temp}`)
+      .then((res) => {
+        console.log(res);
+        setIntros(res["data"]["intro"]);
+        setQuestions(res["data"]["questions"]);
+        setStrengths(res["data"]["strengths"]);
+      });
+  };
 
   function handleSubmit() {
     axios
