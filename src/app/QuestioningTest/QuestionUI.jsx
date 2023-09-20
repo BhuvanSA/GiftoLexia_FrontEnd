@@ -26,8 +26,18 @@ const QuestionUI = (props) => {
   };
 
   function handleSubmit() {
+    const child_name = localStorage.getItem("name");
+    const email = localStorage.getItem("email");
+    const age = localStorage.getItem("form_age");
+    const language = localStorage.getItem("form_language");
     axios
-      .post("http://127.0.0.1:5000/survey", { selectedOptions, age_group: age })
+      .post("http://127.0.0.1:5000/survey", {
+        selectedOptions,
+        age_group: age,
+        child_name,
+        language,
+        email,
+      })
       .then((response) => {
         console.log(response.data); // Handle the response as needed
       })

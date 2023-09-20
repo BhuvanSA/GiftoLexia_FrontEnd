@@ -16,27 +16,11 @@ function EntryForm(props) {
     e.preventDefault();
     console.log(email, name, language, age, tandc);
     setSBtn(false);
-    axios
-      .post(
-        "http://127.0.0.1:5000/submitEntryForm",
-        JSON.stringify({
-          email: email,
-          name: name,
-          language: language,
-          age: age,
-        }),
-        {
-          headers: { "Content-Type": "application/json" },
-        }
-      )
-      .then((res) => {
-        console.log("posteed", res["data"]["id"]);
-        localStorage.setItem("form_id", res["data"]["id"]);
-        localStorage.setItem("form_language", language);
-        localStorage.setItem("form_age", age);
-        props.setter(true);
-      })
-      .catch((err) => console.log(err));
+    localStorage.setItem("email", email);
+    localStorage.setItem("name", name);
+    localStorage.setItem("form_language", language);
+    localStorage.setItem("form_age", age);
+    props.setter(true);
   }
 
   return (
