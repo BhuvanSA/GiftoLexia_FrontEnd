@@ -43,7 +43,7 @@ const Recorder = () => {
     const formData = new FormData();
     formData.append("audio_data", blob, "recording.mp3");
 
-    fetch("http://127.0.0.1:5000/record", {
+    fetch("http://test.nishithpshetty.cf:8080/record", {
       method: "POST",
       body: formData,
     })

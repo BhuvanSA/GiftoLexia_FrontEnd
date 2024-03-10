@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import ChooseTest from "../components/ChooseTest";
 import QuestionUI from "./QuestionUI";
+import ResultUI from "./ResultUI";
 
 export default function Page() {
   const router = useRouter();
@@ -10,7 +11,8 @@ export default function Page() {
   // localStorage.removeItem("form_id");
 
   useEffect(() => {
-    setForm_id(localStorage.getItem("form_id"));
+    // setForm_id(localStorage.getItem("form_id"));
+    setForm_id("77");
   }, []);
 
   if (form_id === null) router.push("/EntryForm");

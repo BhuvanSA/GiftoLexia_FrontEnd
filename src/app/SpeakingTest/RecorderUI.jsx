@@ -11,7 +11,9 @@ const RecorderUI = () => {
 
   const makeAPICall = async () => {
     try {
-      const response = await fetch("http://127.0.0.1:5000/", { mode: "cors" });
+      const response = await fetch("http://test.nishithpshetty.cf:8080/", {
+        mode: "cors",
+      });
       const data = await response.json();
       setExpected(data.expected);
       setActual("Your Transcript Goes here");
@@ -26,7 +28,7 @@ const RecorderUI = () => {
 
   function receiveTranscribe() {
     fetch(
-      "http://127.0.0.1:5000/transcribe",
+      "http://test.nishithpshetty.cf:8080/transcribe",
       {
         method: "POST",
       },
@@ -44,7 +46,7 @@ const RecorderUI = () => {
   }
   function receiveCalculate() {
     fetch(
-      "http://127.0.0.1:5000/calculate",
+      "http://test.nishithpshetty.cf:8080/calculate",
       {
         method: "GET",
       },

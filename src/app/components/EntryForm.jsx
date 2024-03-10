@@ -20,6 +20,7 @@ function EntryForm(props) {
     localStorage.setItem("name", name);
     localStorage.setItem("form_language", language);
     localStorage.setItem("form_age", age);
+    localStorage.setItem("form_id", "99");
     props.setter(true);
   }
 
