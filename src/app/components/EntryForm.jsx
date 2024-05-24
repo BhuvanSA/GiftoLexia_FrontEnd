@@ -4,24 +4,29 @@ import { useRouter } from "next/navigation";
 import axios from "axios";
 
 function EntryForm(props) {
-  const router = useRouter();
-  const [email, setEmail] = useState("");
-  const [name, setName] = useState("");
+  const [parent_name, setParent_name] = useState("");
+  const [parent_email, setParent_email] = useState("");
+  const [childs_name, setChilds_name] = useState("");
   const [language, setLanguage] = useState("English");
-  const [age, setAge] = useState("");
-  const [tandc, setTandc] = useState(false);
-  const [sBtn, setSBtn] = useState(true);
+  const [age_group, setAge_group] = useState("");
+  const [terms_and_conditions_checkbox, setTerms_and_conditions_checkbox] = useState(false);
 
   function handleSubmit(e) {
     e.preventDefault();
-    console.log(email, name, language, age, tandc);
-    setSBtn(false);
-    localStorage.setItem("email", email);
-    localStorage.setItem("name", name);
-    localStorage.setItem("form_language", language);
-    localStorage.setItem("form_age", age);
-    localStorage.setItem("form_id", "99");
+    localStorage.setItem("parent_name", parent_name);
+    localStorage.setItem("parent_email", parent_email);
+    localStorage.setItem("childs_name", childs_name);
+    localStorage.setItem("language", language);
+    localStorage.setItem("age_group", age_group);
     props.setter(true);
+  }
+
+  // TODO
+  function check_form_filled() {
+    if ((terms_and_conditions_checkbox) && (parent_email != "") && (parent_name != "") && (age_group != "")) {
+      return false
+    }
+    return true
   }
 
   return (
@@ -34,18 +39,34 @@ function EntryForm(props) {
       <form className="mx-20" onSubmit={handleSubmit}>
         <div className="mb-4">
           <label
+            htmlFor="name"
+            className="block mb-2 text-sm font-medium text-gray-900 light:text-white"
+          >
+            Your name
+          </label>
+          <input
+            type="name"
+            id="parent_name"
+            className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-blue-500 light:focus:border-blue-500 light:shadow-sm-light"
+            onChange={(e) => setParent_name(e.target.value)}
+            value={parent_name}
+            required
+          />
+        </div>
+        <div className="mb-4">
+          <label
             htmlFor="email"
             className="block mb-2 text-sm font-medium text-gray-900 light:text-white"
           >
             Your email
           </label>
           <input
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={(e) => setParent_email(e.target.value)}
             type="email"
-            id="email"
+            id="parent_email"
             className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-blue-500 light:focus:border-blue-500 light:shadow-sm-light"
             placeholder="name@email.com"
-            value={email}
+            value={parent_email}
             required
           />
         </div>
@@ -60,8 +81,8 @@ function EntryForm(props) {
             type="name"
             id="password"
             className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-blue-500 light:focus:border-blue-500 light:shadow-sm-light"
-            onChange={(e) => setName(e.target.value)}
-            value={name}
+            onChange={(e) => setChilds_name(e.target.value)}
+            value={childs_name}
             required
           />
         </div>
@@ -102,16 +123,12 @@ function EntryForm(props) {
           <select
             id="agegroup"
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-blue-500 light:focus:border-blue-500"
-            onChange={(e) => setAge(e.target.value)}
-            value={age}
+            onChange={(e) => setAge_group(e.target.value)}
+            value={age_group}
             required={true}
           >
-            <optgroup label="Select an option" disabled>
-              <option value="" hidden>
-                Select an option
-              </option>
-            </optgroup>
             <optgroup label="Age Groups">
+              <option disabled value="">Select an option</option>
               <option value="3-5">3 - 5 years</option>
               <option value="5-8">5 - 8 years</option>
               <option value="8-12">8 - 12 years</option>
@@ -125,8 +142,8 @@ function EntryForm(props) {
               id="terms"
               type="checkbox"
               className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 light:bg-gray-700 light:border-gray-600 light:focus:ring-blue-600 light:ring-offset-gray-800 light:focus:ring-offset-gray-800"
-              onChange={(e) => setTandc(!tandc)}
-              value={tandc}
+              onChange={(e) => setTerms_and_conditions_checkbox(!terms_and_conditions_checkbox)}
+              value={terms_and_conditions_checkbox}
               required
             />
           </div>
@@ -146,7 +163,7 @@ function EntryForm(props) {
         </div>
         <button
           type="submit"
-          // disabled={!(tandc && sBtn)}
+          disabled={check_form_filled()}
           className="disabled:bg-gray-600 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center light:bg-blue-600 light:hover:bg-blue-700 light:focus:ring-blue-800"
         >
           Submit

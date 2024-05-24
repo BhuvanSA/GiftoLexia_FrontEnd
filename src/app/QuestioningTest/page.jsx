@@ -20,7 +20,6 @@ export default function Page() {
     return (
       <div className="text-center mt-5">
         <QuestionUI />
-        <ChooseTest />
       </div>
     );
   }

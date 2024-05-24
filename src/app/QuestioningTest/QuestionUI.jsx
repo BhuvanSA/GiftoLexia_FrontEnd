@@ -19,7 +19,7 @@ const QuestionUI = (props) => {
     const age_temp = localStorage.getItem("form_age");
     const language = localStorage.getItem("form_language");
     axios
-      .get(`http://test.nishithpshetty.cf:8080/survey/${language}/${age_temp}`)
+      .get(`${process.env.NEXT_PUBLIC_REACT_APP_API_BASE_URL}/survey/${language}/${age_temp}`)
       .then((res) => {
         console.log(res);
         setIntros(res["data"]["intro"]);
@@ -35,7 +35,7 @@ const QuestionUI = (props) => {
     const age = localStorage.getItem("form_age");
     const language = localStorage.getItem("form_language");
     axios
-      .post("http://test.nishithpshetty.cf:8080/survey", {
+      .post(`${process.env.NEXT_PUBLIC_REACT_APP_API_BASE_URL}/survey`, {
         selectedOptions,
         age_group: age,
         child_name,
@@ -45,7 +45,6 @@ const QuestionUI = (props) => {
       .then((response) => {
         setGot_Results(true);
         setResults(response.data["msg"]);
-        // console.log(response.data["msg"]); // Handle the response as needed
       })
       .catch((error) => {
         console.error("Error submitting data:", error);
