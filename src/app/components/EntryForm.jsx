@@ -4,12 +4,12 @@ import { useRouter } from "next/navigation";
 import axios from "axios";
 
 function EntryForm(props) {
-  const [parent_name, setParent_name] = useState("");
-  const [parent_email, setParent_email] = useState("");
-  const [childs_name, setChilds_name] = useState("");
-  const [language, setLanguage] = useState("English");
-  const [age_group, setAge_group] = useState("");
-  const [terms_and_conditions_checkbox, setTerms_and_conditions_checkbox] = useState(false);
+  const [parent_name, setParent_name] = useState(localStorage.getItem("parent_name") || "");
+  const [parent_email, setParent_email] = useState(localStorage.getItem("parent_email") || "");
+  const [childs_name, setChilds_name] = useState(localStorage.getItem("childs_name") || "");
+  const [language, setLanguage] = useState(localStorage.getItem("language") || "English");
+  const [age_group, setAge_group] = useState(localStorage.getItem("age_group") || "");
+  const [terms_and_conditions_checkbox, setTerms_and_conditions_checkbox] = useState(localStorage.getItem("terms_and_conditions_checkbox") == "true" || false);
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -18,15 +18,19 @@ function EntryForm(props) {
     localStorage.setItem("childs_name", childs_name);
     localStorage.setItem("language", language);
     localStorage.setItem("age_group", age_group);
+    localStorage.setItem("terms_and_conditions_checkbox", true);
     props.setter(true);
+    window.scrollTo(0, document.body.scrollHeight);
   }
 
-  // TODO
   function check_form_filled() {
-    if ((terms_and_conditions_checkbox) && (parent_email != "") && (parent_name != "") && (age_group != "")) {
-      return false
-    }
-    return true
+    return !((terms_and_conditions_checkbox) && (parent_email != "") && (parent_name != "") && (age_group != "") && (childs_name != ""));
+  }
+
+  function handleCheckboxChange(e) {
+    console.log("Checkbox clicked");
+    console.log(terms_and_conditions_checkbox);
+    // setTerms_and_conditions_checkbox(!terms_and_conditions_checkbox);
   }
 
   return (
@@ -34,7 +38,7 @@ function EntryForm(props) {
       <h1 className="text-center text-4xl font-bold my-10 hero__title">
         Early Screening CheckList
       </h1>
-      <p className="text-center mb-10 hero__subtitle">Enter child details</p>
+      <p className="text-center mb-10 hero__subtitle">Enter details</p>
 
       <form className="mx-20" onSubmit={handleSubmit}>
         <div className="mb-4">
@@ -142,8 +146,8 @@ function EntryForm(props) {
               id="terms"
               type="checkbox"
               className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 light:bg-gray-700 light:border-gray-600 light:focus:ring-blue-600 light:ring-offset-gray-800 light:focus:ring-offset-gray-800"
-              onChange={(e) => setTerms_and_conditions_checkbox(!terms_and_conditions_checkbox)}
               value={terms_and_conditions_checkbox}
+              onChange={() => handleCheckboxChange()}
               required
             />
           </div>
@@ -166,7 +170,7 @@ function EntryForm(props) {
           disabled={check_form_filled()}
           className="disabled:bg-gray-600 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center light:bg-blue-600 light:hover:bg-blue-700 light:focus:ring-blue-800"
         >
-          Submit
+          Save
         </button>
       </form>
     </div>
